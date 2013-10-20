@@ -15,4 +15,4 @@ setup(name='pynnacle',
       keywords=KEYWORDS,
       packages=find_packages(exclude=['*_test']),
       zip_safe=False,
-      test_suite='test')
+      test_suite='pynnacle_test')

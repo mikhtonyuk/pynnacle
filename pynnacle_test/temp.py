@@ -3,6 +3,7 @@ from connection_factories.callable import CallableConnectionFactory
 from codecs.text import TextCodec
 from tracing import *
 from service import Service
+from filters import RetryFilter
 
 import urlparse
 
@@ -56,12 +57,12 @@ class LoggingTrace(NullTracer):
 if __name__ == '__main__':
     codec = TextCodec()
     conn = CallableConnectionFactory()
-    router = FailoverRouter("clb://127.0.0.1:8001", "clb://127.0.0.1:8002")
+    router = RoundRobinRouter("clb://127.0.0.1:8001", "clb://127.0.0.1:8002")
 
     tracer = LoggingTrace()
 
     svc = ServiceTracer(
-        Service(codec, conn, router, tracer),
+        RetryFilter(Service(codec, conn, router, tracer), 3),
         tracer)
 
     svc.request("#yolo1")

@@ -15,4 +15,4 @@ class CallableConnectionFactory(IConnectionFactory):
     def onSend(self, url, data):
         if self.fail:
             raise Exception("fake socket error")
-        return "echo: {}".format(data)
+        return "<echo> {}".format(data)
